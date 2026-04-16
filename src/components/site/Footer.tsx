@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { Phone, Mail, MapPin, Camera, Share2 } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 export function Footer() {
@@ -44,8 +44,8 @@ export function Footer() {
           <div>
             <h4 className="font-label text-xs text-magenta-light mb-5">Suivez-nous</h4>
             <div className="flex gap-3">
-              <a href="#" className="rounded-full bg-white/10 p-3 hover:bg-magenta transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="#" className="rounded-full bg-white/10 p-3 hover:bg-magenta transition-colors"><Facebook className="h-5 w-5" /></a>
+              <a href="#" aria-label="Instagram" className="rounded-full bg-white/10 p-3 hover:bg-magenta transition-colors"><Camera className="h-5 w-5" /></a>
+              <a href="#" aria-label="Facebook" className="rounded-full bg-white/10 p-3 hover:bg-magenta transition-colors"><Share2 className="h-5 w-5" /></a>
             </div>
             <p className="mt-6 text-xs text-white/50 font-editorial italic">Ouvert du lundi au vendredi<br/>8h00 — 18h00</p>
           </div>
