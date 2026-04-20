@@ -34,10 +34,22 @@ export function StickyReveal({ image, imageAlt, panels }: Props) {
           </div>
           <div className="relative h-[60vh] lg:h-[70vh]">
             {panels.map((p, i) => {
-              const start = i / panels.length;
-              const end = (i + 1) / panels.length;
-              const opacity = useTransform(scrollYProgress, [start - 0.05, start + 0.05, end - 0.05, end + 0.05], [0, 1, 1, 0]);
-              const y = useTransform(scrollYProgress, [start, end], [40, -40]);
+              const n = Math.max(panels.length, 1);
+              const start = i / n;
+              const end = (i + 1) / n;
+              const fade = Math.min(0.05, 1 / (n * 4));
+              const k0 = Math.max(0, start - fade);
+              const k1 = Math.min(start + fade, end - fade > start + fade ? start + fade : (start + end) / 2);
+              const k2 = Math.max(k1, end - fade);
+              const k3 = Math.min(1, end + fade);
+              // Ensure strict monotonic non-decreasing
+              const stops = [k0, k1, k2, k3].reduce<number[]>((acc, v) => {
+                const last = acc.length ? acc[acc.length - 1] : 0;
+                acc.push(v < last ? last : v);
+                return acc;
+              }, []);
+              const opacity = useTransform(scrollYProgress, stops, [0, 1, 1, 0]);
+              const y = useTransform(scrollYProgress, [Math.max(0, start), Math.min(1, end)], [40, -40]);
               return (
                 <motion.div key={i} style={{ opacity, y }} className="absolute inset-0 flex flex-col justify-center">
                   <p className={`section-num mb-5`} style={{ color: `var(--${p.color})` }}>{p.label}</p>
