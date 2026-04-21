@@ -497,19 +497,6 @@ function Testimonials() {
 
 /* ---------- 9. INSCRIPTIONS CTA ---------- */
 function InscriptionsCTA() {
-  return (
-    <section className="relative py-28 bg-gradient-to-br from-magenta via-magenta-light to-purple overflow-hidden">
-      <div className="blob bg-white/10 top-10 left-10 w-72 h-72" />
-      <div className="blob bg-gold/30 bottom-10 right-10 w-96 h-96" />
-      <Doodle kind="star" color="oklch(0.79 0.16 78 / 0.7)" className="absolute top-20 left-[15%] w-14 h-14 animate-float-soft" />
-      <Doodle kind="spark" color="oklch(1 0 0 / 0.6)" className="absolute bottom-32 right-[20%] w-12 h-12" spin />
-      <Doodle kind="heart" color="oklch(1 0 0 / 0.5)" className="absolute top-1/2 right-[10%] w-10 h-10 animate-float-soft" delay={0.4} />
-
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-2 gap-12 items-center">
-        <motion.div {...fadeUp} className="text-white">
-          <p className="font-label text-xs text-white/70 mb-4">06 — Rentrée 2026 — 2027</p>
-/* ---------- 9. INSCRIPTIONS CTA ---------- */
-function InscriptionsCTA() {
   const [open, setOpen] = useState(false);
   return (
     <section className="relative py-20 md:py-28 bg-gradient-to-br from-magenta via-magenta-light to-purple overflow-hidden">
