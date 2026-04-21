@@ -311,15 +311,44 @@ function Pillars() {
   );
 }
 
-/* ---------- 5. ABOUT — Sticky reveal ---------- */
+/* ---------- 5. ABOUT — interactive image gallery ---------- */
 function AboutSticky() {
+  const panels = [
+    {
+      image: classroom,
+      label: "Mission",
+      color: "magenta" as const,
+      title: <>Reprendre goût à <span className="text-magenta">l'apprentissage</span></>,
+      text: "Chaque enfant mérite un espace où il peut grandir à son rythme, avec un accompagnement pensé pour sa singularité.",
+    },
+    {
+      image: activityMontessori,
+      label: "Vision",
+      color: "purple" as const,
+      title: <>La <span className="text-purple">référence</span> de l'éducation inclusive</>,
+      text: "Devenir le modèle au Maroc — un lieu où chaque enfant, quelles que soient ses spécificités, trouve sa place.",
+    },
+    {
+      image: activityArt,
+      label: "Approche",
+      color: "teal" as const,
+      title: <>Une équipe <span className="text-teal">pluridisciplinaire</span></>,
+      text: "Enseignants spécialisés, psychologues, art-thérapeutes et paramédicaux unis autour de chaque enfant.",
+    },
+  ];
+
+  const [active, setActive] = useState(0);
+  const current = panels[active];
+
   return (
-    <section className="relative bg-gradient-to-b from-white via-cream to-white overflow-hidden">
+    <section className="relative bg-gradient-to-b from-white via-cream to-white overflow-hidden py-20 md:py-28">
       <Doodle kind="squiggle" color="oklch(0.45 0.21 312 / 0.25)" className="absolute top-10 right-[10%] w-32 h-6 hidden md:block" />
       <Doodle kind="circle" color="oklch(0.58 0.10 187 / 0.15)" className="absolute bottom-32 left-[5%] w-32 h-32 hidden md:block" />
+      <Doodle kind="star" color="oklch(0.79 0.16 78 / 0.4)" className="absolute top-32 left-[8%] w-10 h-10 hidden lg:block animate-float-soft" />
 
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-20 md:pt-28">
-        <motion.div {...fadeUp} className="max-w-3xl">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        {/* Header */}
+        <motion.div {...fadeUp} className="max-w-3xl mb-12 md:mb-16">
           <p className="section-num mb-5" style={{ color: "var(--purple)" }}>
             <span className="inline-block w-10 h-px bg-purple align-middle mr-3" />
             02 — À propos
@@ -328,23 +357,106 @@ function AboutSticky() {
             Un centre où chaque<br className="hidden md:block" /> enfant{" "}
             <span className="relative inline-block">
               <span className="font-handwritten text-purple">trouve sa place</span>
-              <svg viewBox="0 0 240 12" className="absolute -bottom-2 left-0 w-full h-3" preserveAspectRatio="none">
+              <svg viewBox="0 0 240 12" className="absolute -bottom-2 left-0 w-full h-3" preserveAspectRatio="none" aria-hidden="true">
                 <path d="M3 8 Q 60 2, 120 6 T 237 8" stroke="oklch(0.45 0.21 312 / 0.5)" strokeWidth="3" fill="none" strokeLinecap="round" />
               </svg>
             </span>.
           </h2>
           <p className="mt-6 font-handwritten text-xl md:text-2xl text-ink-light max-w-2xl">
-            Trois engagements qui définissent notre quotidien — défilez pour les découvrir.
+            Trois engagements qui définissent notre quotidien.
           </p>
         </motion.div>
+
+        {/* Interactive grid */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          {/* Image with crossfade */}
+          <motion.div
+            {...fadeUp}
+            className="lg:col-span-7 relative aspect-[4/3] md:aspect-[16/11] lg:aspect-auto lg:min-h-[520px] rounded-[2rem] overflow-hidden shadow-glow"
+          >
+            {panels.map((p, i) => (
+              <motion.div
+                key={p.label}
+                initial={false}
+                animate={{ opacity: i === active ? 1 : 0, scale: i === active ? 1 : 1.05 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0"
+                aria-hidden={i !== active}
+              >
+                <img
+                  src={p.image}
+                  alt={p.label}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-tr from-${p.color}/40 via-transparent to-${p.color}/10 mix-blend-multiply`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
+              </motion.div>
+            ))}
+            {/* Floating label badge */}
+            <motion.div
+              key={`badge-${active}`}
+              initial={{ opacity: 0, y: 12, rotate: -2 }}
+              animate={{ opacity: 1, y: 0, rotate: -2 }}
+              transition={{ duration: 0.4 }}
+              className="absolute bottom-6 left-6 bg-white rounded-full px-5 py-2.5 shadow-sticker"
+            >
+              <p className={`font-label text-[10px] text-${current.color}`}>{String(active + 1).padStart(2, "0")} / 03 · {current.label}</p>
+            </motion.div>
+          </motion.div>
+
+          {/* Panel selector + content */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            {panels.map((p, i) => {
+              const isActive = i === active;
+              return (
+                <motion.button
+                  key={p.label}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  onMouseEnter={() => setActive(i)}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className={`group relative text-left rounded-3xl p-6 md:p-7 border-2 transition-all duration-300 ${
+                    isActive
+                      ? `bg-${p.color}-bg border-${p.color} shadow-soft`
+                      : "bg-white/60 border-transparent hover:bg-white hover:border-canvas"
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`shrink-0 mt-1 inline-flex h-10 w-10 items-center justify-center rounded-2xl font-display font-bold text-sm transition-colors ${
+                      isActive ? `bg-${p.color} text-white` : `bg-${p.color}-bg text-${p.color}`
+                    }`}>
+                      0{i + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`font-label text-[10px] mb-2 transition-colors text-${p.color}`}>{p.label}</p>
+                      <h3 className={`font-display font-bold text-xl md:text-2xl leading-tight transition-colors ${
+                        isActive ? "text-ink" : "text-ink/70 group-hover:text-ink"
+                      }`}>
+                        {p.title}
+                      </h3>
+                      <motion.div
+                        initial={false}
+                        animate={{ height: isActive ? "auto" : 0, opacity: isActive ? 1 : 0 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="mt-3 font-body text-ink-light leading-relaxed text-sm md:text-base">
+                          {p.text}
+                        </p>
+                      </motion.div>
+                    </div>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
       </div>
-      <StickyReveal
-        panels={[
-          { image: classroom, label: "Mission", color: "magenta", title: <>Reprendre goût à <span className="text-magenta">l'apprentissage</span></>, text: "Chaque enfant mérite un espace où il peut grandir à son rythme, avec un accompagnement pensé pour sa singularité." },
-          { image: activityMontessori, label: "Vision", color: "purple", title: <>La <span className="text-purple">référence</span> de l'éducation inclusive</>, text: "Devenir le modèle au Maroc — un lieu où chaque enfant, quelles que soient ses spécificités, trouve sa place." },
-          { image: activityArt, label: "Approche", color: "teal", title: <>Une équipe <span className="text-teal">pluridisciplinaire</span></>, text: "Enseignants spécialisés, psychologues, art-thérapeutes et paramédicaux unis autour de chaque enfant." },
-        ]}
-      />
     </section>
   );
 }
