@@ -11,7 +11,7 @@ import { MagneticButton } from "@/components/site/motion/MagneticButton";
 import { CountUp } from "@/components/site/motion/CountUp";
 import { Marquee } from "@/components/site/motion/Marquee";
 import { Doodle } from "@/components/site/motion/Doodle";
-import { StickyReveal } from "@/components/site/motion/StickyReveal";
+
 import hero from "@/assets/hero-children.jpg";
 import classroom from "@/assets/about-classroom.jpg";
 import poster from "@/assets/inscriptions-poster.jpg";
