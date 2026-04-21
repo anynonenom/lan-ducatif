@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Sparkles, Heart, Target, Brain, ArrowRight,
-  Star, Quote, Phone, Calendar,
+  Star, Quote, Phone, Calendar, X, Send, CheckCircle2,
 } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { TiltCard } from "@/components/site/motion/TiltCard";
@@ -146,7 +146,6 @@ function Hero() {
               { label: "HPI", color: "magenta", rot: -4 },
               { label: "TDAH", color: "purple", rot: 3 },
               { label: "DYS", color: "teal", rot: -2 },
-              { label: "TSA", color: "gold", rot: 4 },
               { label: "Typique", color: "magenta", rot: -3 },
             ].map((b, i) => (
               <motion.span
@@ -215,7 +214,7 @@ function Hero() {
 /* ---------- 2. MARQUEE STRIP ---------- */
 function MarqueeStrip() {
   const colors = ["text-magenta", "text-purple", "text-teal", "text-gold"];
-  const words1 = ["Montessori", "Freinet", "Steiner", "HPI", "TDAH", "DYS", "TSA", "Art-thérapie"];
+  const words1 = ["Montessori", "Freinet", "Steiner", "HPI", "TDAH", "DYS", "Art-thérapie"];
   const words2 = ["Bienveillance", "Inclusivité", "Personnalisé", "Maternelle", "Primaire", "D.I.E.C", "Créativité", "Autonomie"];
   return (
     <section className="bg-white py-10 border-y border-border overflow-hidden">
@@ -240,22 +239,22 @@ function MarqueeStrip() {
 /* ---------- 3. STATS BAND ---------- */
 function StatsBand() {
   const stats = [
-    { n: 8, suf: " ans", label: "d'expérience", color: "magenta" },
-    { n: 500, suf: "+", label: "familles accompagnées", color: "purple" },
-    { n: 12, suf: "", label: "pédagogues experts", color: "teal" },
-    { n: 4, suf: "", label: "méthodes pédagogiques", color: "gold" },
+    { n: 6, suf: " ans", label: "d'expérience", color: "magenta", isInfinity: false },
+    { n: 70, suf: "+", label: "familles accompagnées", color: "purple", isInfinity: false },
+    { n: 13, suf: "", label: "pédagogues experts", color: "teal", isInfinity: false },
+    { n: 0, suf: "", label: "méthodes pédagogiques", color: "gold", isInfinity: true },
   ];
   return (
-    <section className="relative py-20 bg-canvas overflow-hidden">
+    <section className="relative py-16 md:py-20 bg-canvas overflow-hidden">
       <Doodle kind="squiggle" color="oklch(0.52 0.21 357 / 0.3)" className="absolute top-10 left-1/4 w-32 h-6" />
       <Doodle kind="star" color="oklch(0.79 0.16 78 / 0.4)" className="absolute bottom-10 right-1/4 w-10 h-10" />
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {stats.map((s, i) => (
           <motion.div key={s.label} {...fadeUp} transition={{ ...fadeUp.transition, delay: i * 0.1 }} className="text-center group">
-            <div className={`font-display font-bold text-6xl md:text-8xl text-${s.color} leading-none transition-transform group-hover:-rotate-3`}>
-              <CountUp to={s.n} suffix={s.suf} />
+            <div className={`font-display font-bold text-5xl sm:text-6xl md:text-8xl text-${s.color} leading-none transition-transform group-hover:-rotate-3`}>
+              {s.isInfinity ? <span>∞</span> : <CountUp to={s.n} suffix={s.suf} />}
             </div>
-            <p className="mt-3 font-handwritten text-2xl text-ink-light">{s.label}</p>
+            <p className="mt-3 font-handwritten text-xl md:text-2xl text-ink-light">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -315,22 +314,35 @@ function Pillars() {
 /* ---------- 5. ABOUT — Sticky reveal ---------- */
 function AboutSticky() {
   return (
-    <section className="bg-white">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-24">
-        <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12">
-          <p className="section-num mx-auto justify-center mb-4" style={{ color: "var(--purple)" }}>02 — À propos</p>
-          <h2 className="font-display font-bold text-4xl md:text-6xl leading-[1.05]">
-            Un centre où chaque enfant <span className="font-handwritten text-purple">trouve sa place</span>.
+    <section className="relative bg-gradient-to-b from-white via-cream to-white overflow-hidden">
+      <Doodle kind="squiggle" color="oklch(0.45 0.21 312 / 0.25)" className="absolute top-10 right-[10%] w-32 h-6 hidden md:block" />
+      <Doodle kind="circle" color="oklch(0.58 0.10 187 / 0.15)" className="absolute bottom-32 left-[5%] w-32 h-32 hidden md:block" />
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-20 md:pt-28">
+        <motion.div {...fadeUp} className="max-w-3xl">
+          <p className="section-num mb-5" style={{ color: "var(--purple)" }}>
+            <span className="inline-block w-10 h-px bg-purple align-middle mr-3" />
+            02 — À propos
+          </p>
+          <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight">
+            Un centre où chaque<br className="hidden md:block" /> enfant{" "}
+            <span className="relative inline-block">
+              <span className="font-handwritten text-purple">trouve sa place</span>
+              <svg viewBox="0 0 240 12" className="absolute -bottom-2 left-0 w-full h-3" preserveAspectRatio="none">
+                <path d="M3 8 Q 60 2, 120 6 T 237 8" stroke="oklch(0.45 0.21 312 / 0.5)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              </svg>
+            </span>.
           </h2>
+          <p className="mt-6 font-handwritten text-xl md:text-2xl text-ink-light max-w-2xl">
+            Trois engagements qui définissent notre quotidien — défilez pour les découvrir.
+          </p>
         </motion.div>
       </div>
       <StickyReveal
-        image={classroom}
-        imageAlt="Salle de classe Montessori"
         panels={[
-          { label: "Mission", color: "magenta", title: <>Reprendre goût à <span className="text-magenta">l'apprentissage</span></>, text: "Chaque enfant mérite un espace où il peut grandir à son rythme, avec un accompagnement pensé pour sa singularité." },
-          { label: "Vision", color: "purple", title: <>La <span className="text-purple">référence</span> de l'éducation inclusive</>, text: "Devenir le modèle au Maroc — un lieu où chaque enfant, quelles que soient ses spécificités, trouve sa place." },
-          { label: "Approche", color: "teal", title: <>Une équipe <span className="text-teal">pluridisciplinaire</span></>, text: "Enseignants spécialisés, psychologues, art-thérapeutes et paramédicaux unis autour de chaque enfant." },
+          { image: classroom, label: "Mission", color: "magenta", title: <>Reprendre goût à <span className="text-magenta">l'apprentissage</span></>, text: "Chaque enfant mérite un espace où il peut grandir à son rythme, avec un accompagnement pensé pour sa singularité." },
+          { image: activityMontessori, label: "Vision", color: "purple", title: <>La <span className="text-purple">référence</span> de l'éducation inclusive</>, text: "Devenir le modèle au Maroc — un lieu où chaque enfant, quelles que soient ses spécificités, trouve sa place." },
+          { image: activityArt, label: "Approche", color: "teal", title: <>Une équipe <span className="text-teal">pluridisciplinaire</span></>, text: "Enseignants spécialisés, psychologues, art-thérapeutes et paramédicaux unis autour de chaque enfant." },
         ]}
       />
     </section>
@@ -485,8 +497,9 @@ function Testimonials() {
 
 /* ---------- 9. INSCRIPTIONS CTA ---------- */
 function InscriptionsCTA() {
+  const [open, setOpen] = useState(false);
   return (
-    <section className="relative py-28 bg-gradient-to-br from-magenta via-magenta-light to-purple overflow-hidden">
+    <section className="relative py-20 md:py-28 bg-gradient-to-br from-magenta via-magenta-light to-purple overflow-hidden">
       <div className="blob bg-white/10 top-10 left-10 w-72 h-72" />
       <div className="blob bg-gold/30 bottom-10 right-10 w-96 h-96" />
       <Doodle kind="star" color="oklch(0.79 0.16 78 / 0.7)" className="absolute top-20 left-[15%] w-14 h-14 animate-float-soft" />
@@ -496,18 +509,22 @@ function InscriptionsCTA() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-2 gap-12 items-center">
         <motion.div {...fadeUp} className="text-white">
           <p className="font-label text-xs text-white/70 mb-4">06 — Rentrée 2026 — 2027</p>
-          <h2 className="font-display font-bold text-6xl md:text-8xl leading-[0.92]">
+          <h2 className="font-display font-bold text-5xl sm:text-6xl md:text-8xl leading-[0.92]">
             Inscriptions<br/>
             <span className="font-handwritten font-bold">Ouvertes !</span>
           </h2>
-          <p className="mt-8 font-handwritten text-3xl text-white/90 max-w-lg">
+          <p className="mt-6 md:mt-8 font-handwritten text-2xl md:text-3xl text-white/90 max-w-lg">
             Maternelle & Primaire — réservez la place de votre enfant.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <MagneticButton as="a" href="/contact" className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 font-display font-bold text-magenta hover:scale-105 transition-transform shadow-glow">
+          <div className="mt-8 md:mt-10 flex flex-wrap gap-4">
+            <MagneticButton
+              as="button"
+              onClick={() => setOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full bg-white px-7 md:px-8 py-3.5 md:py-4 font-display font-bold text-magenta hover:scale-105 transition-transform shadow-glow"
+            >
               <Calendar className="h-5 w-5" /> Demander un rendez-vous
             </MagneticButton>
-            <MagneticButton as="a" href="tel:0660686993" className="inline-flex items-center gap-2 rounded-full border-2 border-white/40 px-8 py-4 font-display font-bold text-white hover:bg-white/10 transition-colors">
+            <MagneticButton as="a" href="tel:0660686993" className="inline-flex items-center gap-2 rounded-full border-2 border-white/40 px-7 md:px-8 py-3.5 md:py-4 font-display font-bold text-white hover:bg-white/10 transition-colors">
               <Phone className="h-5 w-5" /> 06 60 68 69 93
             </MagneticButton>
           </div>
@@ -521,7 +538,136 @@ function InscriptionsCTA() {
           </div>
         </motion.div>
       </div>
+
+      <InscriptionModal open={open} onClose={() => setOpen(false)} />
     </section>
+  );
+}
+
+/* ---------- Inscription Modal ---------- */
+function InscriptionModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSent(true);
+    setTimeout(() => {
+      setSent(false);
+      onClose();
+    }, 2200);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-ink/70 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="inscription-modal-title"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ type: "spring", stiffness: 220, damping: 22 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto bg-white rounded-3xl shadow-glow"
+      >
+        <button
+          onClick={onClose}
+          aria-label="Fermer"
+          className="absolute top-4 right-4 z-10 rounded-full bg-canvas hover:bg-magenta hover:text-white p-2 transition-colors"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        <div className="bg-gradient-to-br from-magenta-bg via-rose to-lavender p-6 md:p-8 rounded-t-3xl">
+          <p className="font-label text-[10px] text-magenta mb-2">Inscriptions 2026 — 2027</p>
+          <h3 id="inscription-modal-title" className="font-display font-bold text-3xl md:text-4xl text-ink leading-tight">
+            Demander un <span className="font-handwritten text-magenta">rendez-vous</span>
+          </h3>
+          <p className="mt-2 font-handwritten text-lg text-ink-light">
+            Remplissez le formulaire — nous vous recontactons sous 24h.
+          </p>
+        </div>
+
+        {sent ? (
+          <div className="p-8 text-center">
+            <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-teal-bg text-teal mb-4">
+              <CheckCircle2 className="h-9 w-9" />
+            </div>
+            <h4 className="font-display font-bold text-2xl mb-2">Demande envoyée !</h4>
+            <p className="font-handwritten text-xl text-ink-light">Nous vous recontactons très vite.</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-label text-[10px] text-ink-light mb-1.5">Prénom du parent *</label>
+                <input required type="text" className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition" />
+              </div>
+              <div>
+                <label className="block font-label text-[10px] text-ink-light mb-1.5">Nom *</label>
+                <input required type="text" className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition" />
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-label text-[10px] text-ink-light mb-1.5">Téléphone *</label>
+                <input required type="tel" placeholder="06 ..." className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition" />
+              </div>
+              <div>
+                <label className="block font-label text-[10px] text-ink-light mb-1.5">Email *</label>
+                <input required type="email" placeholder="vous@email.com" className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition" />
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block font-label text-[10px] text-ink-light mb-1.5">Âge de l'enfant *</label>
+                <input required type="number" min={2} max={15} className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition" />
+              </div>
+              <div>
+                <label className="block font-label text-[10px] text-ink-light mb-1.5">Niveau souhaité</label>
+                <select className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition">
+                  <option>Maternelle</option>
+                  <option>Primaire</option>
+                  <option>Soutien scolaire</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="block font-label text-[10px] text-ink-light mb-1.5">Message (optionnel)</label>
+              <textarea rows={3} placeholder="Particularités, questions..." className="w-full rounded-xl border-2 border-canvas bg-canvas focus:bg-white focus:border-magenta px-4 py-3 outline-none transition resize-none" />
+            </div>
+            <button
+              type="submit"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-hero px-6 py-3.5 font-display font-bold text-white shadow-glow hover:scale-[1.02] transition-transform"
+            >
+              <Send className="h-4 w-4" /> Envoyer ma demande
+            </button>
+            <p className="text-xs text-ink-light text-center">
+              En envoyant ce formulaire, vous acceptez d'être recontacté par EducazenKids.
+            </p>
+          </form>
+        )}
+      </motion.div>
+    </motion.div>
   );
 }
 

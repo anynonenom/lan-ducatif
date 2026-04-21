@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { PageShell, PageHero } from "@/components/site/PageShell";
-import { Heart, Sparkles, Target, Brain, Users, BookOpen } from "lucide-react";
+import { Heart, Users, BookOpen } from "lucide-react";
 import { TiltCard } from "@/components/site/motion/TiltCard";
 import { CountUp } from "@/components/site/motion/CountUp";
 import { Doodle } from "@/components/site/motion/Doodle";
@@ -96,39 +96,7 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* Valeurs sticker */}
-      <section className="relative py-24 bg-white overflow-hidden">
-        <Doodle kind="squiggle" color="oklch(0.45 0.21 312 / 0.3)" className="absolute top-10 left-10 w-32 h-6" />
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-16">
-            <p className="section-num mx-auto justify-center mb-4">03 — Nos valeurs</p>
-            <h2 className="font-display font-bold text-4xl md:text-6xl leading-tight">Quatre piliers, une <span className="font-handwritten text-magenta">philosophie</span>.</h2>
-          </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Sparkles, title: "Inclusivité", desc: "Chaque enfant accueilli avec sa singularité.", color: "magenta", rot: -2 },
-              { icon: Heart, title: "Bienveillance", desc: "Un cadre chaleureux et sécurisant.", color: "purple", rot: 2 },
-              { icon: Target, title: "Personnalisation", desc: "Un PAP unique pour chaque élève.", color: "teal", rot: -3 },
-              { icon: Brain, title: "Innovation", desc: "Module D.I.E.C et équipe pluridisciplinaire.", color: "gold", rot: 3 },
-            ].map((v, i) => (
-              <motion.div key={v.title}
-                initial={{ opacity: 0, y: 30, rotate: 0 }}
-                whileInView={{ opacity: 1, y: 0, rotate: v.rot }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, type: "spring" }}
-                whileHover={{ rotate: 0, y: -8, scale: 1.04 }}
-                className={`group relative rounded-3xl bg-${v.color}-bg p-8 overflow-hidden shadow-sticker`}
-              >
-                <div className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-${v.color} text-white shadow-soft mb-5`}>
-                  <v.icon className="h-7 w-7" />
-                </div>
-                <h3 className="font-display font-bold text-xl mb-2">{v.title}</h3>
-                <p className="text-sm text-ink-light">{v.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Valeurs section removed — already shown on the homepage as "Pillars" to avoid repetition */}
 
       {/* Pôles */}
       <section className="py-24 bg-teal-bg">
