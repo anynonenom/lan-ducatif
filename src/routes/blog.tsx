@@ -51,31 +51,38 @@ function BlogPage() {
         accent="purple"
       />
 
-      {/* Featured */}
-      <section className="relative py-20 bg-white overflow-hidden">
+      {/* Featured — bigger À la une */}
+      <section className="relative py-20 md:py-28 bg-white overflow-hidden">
         <Doodle kind="star" color="oklch(0.45 0.21 312 / 0.3)" className="absolute top-10 right-10 w-12 h-12" />
+        <Doodle kind="spark" color="oklch(0.52 0.21 357 / 0.4)" className="absolute bottom-20 left-10 w-10 h-10 hidden md:block" spin />
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <motion.article {...fadeUp} className="group grid md:grid-cols-2 gap-10 items-center cursor-pointer">
-            <TiltCard max={6}>
-              <div className="relative bg-white p-4 pb-12 shadow-sticker rounded-sm">
+          <motion.div {...fadeUp} className="mb-10 md:mb-14 flex items-end justify-between gap-6 flex-wrap">
+            <div>
+              <p className="section-num mb-3">À la une</p>
+              <h2 className="font-display font-bold text-4xl md:text-6xl leading-tight">L'article <span className="font-handwritten text-magenta">phare</span></h2>
+            </div>
+          </motion.div>
+          <motion.article {...fadeUp} className="group grid lg:grid-cols-5 gap-8 lg:gap-14 items-center cursor-pointer">
+            <TiltCard max={5} className="lg:col-span-3">
+              <div className="relative bg-white p-4 md:p-5 pb-14 md:pb-16 shadow-glow rounded-sm">
                 <div className="washi-tape" style={{ top: "-10px", left: "30%", transform: "rotate(-6deg)" }} />
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img src={featured.img} alt={featured.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" width={1024} height={768} />
+                <div className="washi-tape" style={{ top: "-10px", right: "20%", transform: "rotate(8deg)" }} />
+                <div className="aspect-[4/3] md:aspect-[16/10] overflow-hidden">
+                  <img src={featured.img} alt={featured.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" width={1600} height={1000} />
                 </div>
-                <p className="absolute bottom-3 left-0 right-0 text-center font-handwritten text-xl text-ink">à la une ✦</p>
+                <p className="absolute bottom-4 left-0 right-0 text-center font-handwritten text-2xl text-ink">à la une ✦</p>
               </div>
             </TiltCard>
-            <div>
-              <p className="section-num mb-5">À la une</p>
-              <div className="flex items-center gap-4 mb-5 text-sm text-ink-light flex-wrap">
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-3 md:gap-4 mb-5 text-sm text-ink-light flex-wrap">
                 <span className={`font-label text-[10px] px-3 py-1 rounded-full bg-${featured.color}-bg text-${featured.color}`}>{featured.cat}</span>
                 <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {featured.date}</span>
                 <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {featured.read}</span>
               </div>
-              <h2 className="font-display font-bold text-3xl md:text-5xl leading-tight group-hover:text-magenta transition-colors">{featured.title}</h2>
-              <p className="mt-6 font-handwritten text-2xl text-ink-light leading-snug">{featured.excerpt}</p>
-              <span className="mt-8 inline-flex items-center gap-2 font-display font-bold text-magenta group-hover:gap-3 transition-all">
-                Lire l'article <ArrowRight className="h-4 w-4" />
+              <h3 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] group-hover:text-magenta transition-colors">{featured.title}</h3>
+              <p className="mt-6 md:mt-8 font-handwritten text-2xl md:text-3xl text-ink-light leading-snug">{featured.excerpt}</p>
+              <span className="mt-8 md:mt-10 inline-flex items-center gap-2 font-display font-bold text-magenta text-lg group-hover:gap-3 transition-all">
+                Lire l'article <ArrowRight className="h-5 w-5" />
               </span>
             </div>
           </motion.article>
