@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Sparkles, Heart, Target, Brain, ArrowRight,
-  Star, Quote, Phone, Calendar,
+  Star, Quote, Phone, Calendar, X, Send, CheckCircle2,
 } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { TiltCard } from "@/components/site/motion/TiltCard";
@@ -146,7 +146,6 @@ function Hero() {
               { label: "HPI", color: "magenta", rot: -4 },
               { label: "TDAH", color: "purple", rot: 3 },
               { label: "DYS", color: "teal", rot: -2 },
-              { label: "TSA", color: "gold", rot: 4 },
               { label: "Typique", color: "magenta", rot: -3 },
             ].map((b, i) => (
               <motion.span
@@ -215,7 +214,7 @@ function Hero() {
 /* ---------- 2. MARQUEE STRIP ---------- */
 function MarqueeStrip() {
   const colors = ["text-magenta", "text-purple", "text-teal", "text-gold"];
-  const words1 = ["Montessori", "Freinet", "Steiner", "HPI", "TDAH", "DYS", "TSA", "Art-thérapie"];
+  const words1 = ["Montessori", "Freinet", "Steiner", "HPI", "TDAH", "DYS", "Art-thérapie"];
   const words2 = ["Bienveillance", "Inclusivité", "Personnalisé", "Maternelle", "Primaire", "D.I.E.C", "Créativité", "Autonomie"];
   return (
     <section className="bg-white py-10 border-y border-border overflow-hidden">
@@ -240,22 +239,22 @@ function MarqueeStrip() {
 /* ---------- 3. STATS BAND ---------- */
 function StatsBand() {
   const stats = [
-    { n: 8, suf: " ans", label: "d'expérience", color: "magenta" },
-    { n: 500, suf: "+", label: "familles accompagnées", color: "purple" },
-    { n: 12, suf: "", label: "pédagogues experts", color: "teal" },
-    { n: 4, suf: "", label: "méthodes pédagogiques", color: "gold" },
+    { n: 6, suf: " ans", label: "d'expérience", color: "magenta", isInfinity: false },
+    { n: 70, suf: "+", label: "familles accompagnées", color: "purple", isInfinity: false },
+    { n: 13, suf: "", label: "pédagogues experts", color: "teal", isInfinity: false },
+    { n: 0, suf: "", label: "méthodes pédagogiques", color: "gold", isInfinity: true },
   ];
   return (
-    <section className="relative py-20 bg-canvas overflow-hidden">
+    <section className="relative py-16 md:py-20 bg-canvas overflow-hidden">
       <Doodle kind="squiggle" color="oklch(0.52 0.21 357 / 0.3)" className="absolute top-10 left-1/4 w-32 h-6" />
       <Doodle kind="star" color="oklch(0.79 0.16 78 / 0.4)" className="absolute bottom-10 right-1/4 w-10 h-10" />
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {stats.map((s, i) => (
           <motion.div key={s.label} {...fadeUp} transition={{ ...fadeUp.transition, delay: i * 0.1 }} className="text-center group">
-            <div className={`font-display font-bold text-6xl md:text-8xl text-${s.color} leading-none transition-transform group-hover:-rotate-3`}>
-              <CountUp to={s.n} suffix={s.suf} />
+            <div className={`font-display font-bold text-5xl sm:text-6xl md:text-8xl text-${s.color} leading-none transition-transform group-hover:-rotate-3`}>
+              {s.isInfinity ? <span>∞</span> : <CountUp to={s.n} suffix={s.suf} />}
             </div>
-            <p className="mt-3 font-handwritten text-2xl text-ink-light">{s.label}</p>
+            <p className="mt-3 font-handwritten text-xl md:text-2xl text-ink-light">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -315,22 +314,35 @@ function Pillars() {
 /* ---------- 5. ABOUT — Sticky reveal ---------- */
 function AboutSticky() {
   return (
-    <section className="bg-white">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-24">
-        <motion.div {...fadeUp} className="text-center max-w-2xl mx-auto mb-12">
-          <p className="section-num mx-auto justify-center mb-4" style={{ color: "var(--purple)" }}>02 — À propos</p>
-          <h2 className="font-display font-bold text-4xl md:text-6xl leading-[1.05]">
-            Un centre où chaque enfant <span className="font-handwritten text-purple">trouve sa place</span>.
+    <section className="relative bg-gradient-to-b from-white via-cream to-white overflow-hidden">
+      <Doodle kind="squiggle" color="oklch(0.45 0.21 312 / 0.25)" className="absolute top-10 right-[10%] w-32 h-6 hidden md:block" />
+      <Doodle kind="circle" color="oklch(0.58 0.10 187 / 0.15)" className="absolute bottom-32 left-[5%] w-32 h-32 hidden md:block" />
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-20 md:pt-28">
+        <motion.div {...fadeUp} className="max-w-3xl">
+          <p className="section-num mb-5" style={{ color: "var(--purple)" }}>
+            <span className="inline-block w-10 h-px bg-purple align-middle mr-3" />
+            02 — À propos
+          </p>
+          <h2 className="font-display font-bold text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight">
+            Un centre où chaque<br className="hidden md:block" /> enfant{" "}
+            <span className="relative inline-block">
+              <span className="font-handwritten text-purple">trouve sa place</span>
+              <svg viewBox="0 0 240 12" className="absolute -bottom-2 left-0 w-full h-3" preserveAspectRatio="none">
+                <path d="M3 8 Q 60 2, 120 6 T 237 8" stroke="oklch(0.45 0.21 312 / 0.5)" strokeWidth="3" fill="none" strokeLinecap="round" />
+              </svg>
+            </span>.
           </h2>
+          <p className="mt-6 font-handwritten text-xl md:text-2xl text-ink-light max-w-2xl">
+            Trois engagements qui définissent notre quotidien — défilez pour les découvrir.
+          </p>
         </motion.div>
       </div>
       <StickyReveal
-        image={classroom}
-        imageAlt="Salle de classe Montessori"
         panels={[
-          { label: "Mission", color: "magenta", title: <>Reprendre goût à <span className="text-magenta">l'apprentissage</span></>, text: "Chaque enfant mérite un espace où il peut grandir à son rythme, avec un accompagnement pensé pour sa singularité." },
-          { label: "Vision", color: "purple", title: <>La <span className="text-purple">référence</span> de l'éducation inclusive</>, text: "Devenir le modèle au Maroc — un lieu où chaque enfant, quelles que soient ses spécificités, trouve sa place." },
-          { label: "Approche", color: "teal", title: <>Une équipe <span className="text-teal">pluridisciplinaire</span></>, text: "Enseignants spécialisés, psychologues, art-thérapeutes et paramédicaux unis autour de chaque enfant." },
+          { image: classroom, label: "Mission", color: "magenta", title: <>Reprendre goût à <span className="text-magenta">l'apprentissage</span></>, text: "Chaque enfant mérite un espace où il peut grandir à son rythme, avec un accompagnement pensé pour sa singularité." },
+          { image: activityMontessori, label: "Vision", color: "purple", title: <>La <span className="text-purple">référence</span> de l'éducation inclusive</>, text: "Devenir le modèle au Maroc — un lieu où chaque enfant, quelles que soient ses spécificités, trouve sa place." },
+          { image: activityArt, label: "Approche", color: "teal", title: <>Une équipe <span className="text-teal">pluridisciplinaire</span></>, text: "Enseignants spécialisés, psychologues, art-thérapeutes et paramédicaux unis autour de chaque enfant." },
         ]}
       />
     </section>
