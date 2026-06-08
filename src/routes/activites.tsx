@@ -6,7 +6,7 @@ import { TiltCard } from "@/components/site/motion/TiltCard";
 import { MagneticButton } from "@/components/site/motion/MagneticButton";
 import { Doodle } from "@/components/site/motion/Doodle";
 import art from "@/assets/activity-art.jpg";
-import nature from "@/assets/activity-nature.jpg";
+import nature from "@/assets/activity-coding.jpg";
 import montessori from "@/assets/activity-montessori.jpg";
 import music from "@/assets/activity-music.jpg";
 
