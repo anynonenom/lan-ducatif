@@ -16,7 +16,7 @@ import hero from "@/assets/hero-children.jpg";
 import classroom from "@/assets/about-classroom.jpg";
 import poster from "@/assets/inscriptions-poster.jpg";
 import activityArt from "@/assets/activity-art.jpg";
-import activityNature from "@/assets/activity-nature.jpg";
+import activityNature from "@/assets/activity-coding.jpg";
 import activityMontessori from "@/assets/activity-montessori.jpg";
 import activityMusic from "@/assets/activity-music.jpg";
 import blog1 from "@/assets/blog-1.jpg";
