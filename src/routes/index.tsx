@@ -16,7 +16,7 @@ import hero from "@/assets/hero-children.jpg";
 import classroom from "@/assets/about-classroom.jpg";
 import poster from "@/assets/inscriptions-poster.jpg";
 import activityArt from "@/assets/activity-art.jpg";
-import activityNature from "@/assets/activity-nature.jpg";
+import activityNature from "@/assets/activity-coding.jpg";
 import activityMontessori from "@/assets/activity-montessori.jpg";
 import activityMusic from "@/assets/activity-music.jpg";
 import blog1 from "@/assets/blog-1.jpg";
@@ -467,7 +467,7 @@ function ActivitiesExpand() {
     { img: activityMontessori, title: "Pédagogie Montessori", tag: "Maternelle", color: "magenta", desc: "Apprentissage par la manipulation et l'autonomie." },
     { img: activityArt, title: "Art-thérapie", tag: "Tout âge", color: "purple", desc: "Exprimer ses émotions à travers la création." },
     { img: activityMusic, title: "Éveil musical", tag: "3 — 8 ans", color: "teal", desc: "Découverte du rythme, du chant et des instruments." },
-    { img: activityNature, title: "Découverte nature", tag: "Plein air", color: "gold", desc: "Apprendre dehors, observer, expérimenter." },
+    { img: activityNature, title: "Formation codage", tag: "Numérique", color: "gold", desc: "Coder, créer, imaginer : initiation ludique au numérique." },
   ];
   return (
     <section className="relative py-28 bg-canvas overflow-hidden">
