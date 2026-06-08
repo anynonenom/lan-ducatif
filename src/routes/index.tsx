@@ -467,7 +467,7 @@ function ActivitiesExpand() {
     { img: activityMontessori, title: "Pédagogie Montessori", tag: "Maternelle", color: "magenta", desc: "Apprentissage par la manipulation et l'autonomie." },
     { img: activityArt, title: "Art-thérapie", tag: "Tout âge", color: "purple", desc: "Exprimer ses émotions à travers la création." },
     { img: activityMusic, title: "Éveil musical", tag: "3 — 8 ans", color: "teal", desc: "Découverte du rythme, du chant et des instruments." },
-    { img: activityNature, title: "Découverte nature", tag: "Plein air", color: "gold", desc: "Apprendre dehors, observer, expérimenter." },
+    { img: activityNature, title: "Formation codage", tag: "Numérique", color: "gold", desc: "Coder, créer, imaginer : initiation ludique au numérique." },
   ];
   return (
     <section className="relative py-28 bg-canvas overflow-hidden">
