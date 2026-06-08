@@ -14,7 +14,7 @@ export const Route = createFileRoute("/activites")({
   head: () => ({
     meta: [
       { title: "Activités — EducazenKids | Ateliers & Pédagogies" },
-      { name: "description", content: "Découvrez nos activités : Montessori, art-thérapie, éveil musical, découverte nature, formation parents et bien plus." },
+      { name: "description", content: "Découvrez nos activités : Montessori, art-thérapie, éveil musical, formation codage, formation parents et bien plus." },
       { property: "og:title", content: "Activités EducazenKids" },
       { property: "og:description", content: "Une palette d'ateliers pensés pour chaque enfant." },
     ],
